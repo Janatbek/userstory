@@ -1,6 +1,6 @@
 module.exports = {
 
-    'database': '',
+    'database': 'mongodb://localhost/userstory',
     'port': process.env.PORT || 3000,
     'secretKey': 'YourSecretKey'
 
