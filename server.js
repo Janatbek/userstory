@@ -19,6 +19,10 @@ app.use(bodyParser.urlencoded({ extended:true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
+var api = require('./app/routes/api')(app, express);
+app.use('/api', api);
+
+
 // Serve the file
 app.get('*', function(req, res){
     res.sendFile(__dirname + '/public/views/index.html')
@@ -33,5 +37,5 @@ app.listen(config.port, function(err){
     else{
         console.info('listening on port ' + config.port)
     }
-})
+});
 

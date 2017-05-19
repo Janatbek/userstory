@@ -1,17 +1,17 @@
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+var bcrypt = require('bcrypt-nodejs')
+var UserSchema = new Schema({
     name: String,
     username: {type:String, required: true, index: {unique:true}},
     password: {type:String, required: true, index: {select:false}}
 });
 
 //Password hashing alghorith
-
 UserSchema.pre('save', function(next){
-    const user = this;
+    var user = this;
 
     if (!user.isModified('password')) return next();
 
@@ -22,8 +22,15 @@ UserSchema.pre('save', function(next){
     })
 
 })
-
 //End of Password hashing alghorith
+
+UserSchema.methods.comparePassword = function(password){
+
+    var user = this;
+
+    return bcrypt.compareSync(password, user.password);
+
+}
 
 module.exports = mongoose.model('User', UserSchema);
 
